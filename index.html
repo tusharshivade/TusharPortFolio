@@ -35,6 +35,41 @@
     box-shadow: 0 1px 20px rgba(26,26,78,0.08);
   }
 
+  /* new change form tushar */  
+ /* Toggle hidden by default */
+.menu-toggle {
+  display: none;
+  font-size: 28px;
+  cursor: pointer;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    position: absolute;
+    top: 68px;
+    left: 0;
+    width: 100%;
+    background: white;
+    flex-direction: column;
+    text-align: center;
+    display: none;
+  }
+
+  .nav-links li {
+    padding: 15px 0;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
+
+
   .nav-logo {
     display: flex; align-items: center; gap: 0.5rem;
     font-size: 1.4rem; font-weight: 800; color: var(--navy);
@@ -365,7 +400,7 @@
 <body>
 
 <!-- NAVBAR -->
-<nav class="navbar">
+ <nav class="navbar">
   <a class="nav-logo" href="#">
     <span class="logo-icon">S</span>
       Tushar shivade
@@ -377,7 +412,29 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="https://github.com/tusharshivade" target="_blank">Work</a></li>
   </ul>
-</nav>
+</nav> 
+
+<!-- new change form tushar -->
+<!-- <nav class="navbar">
+  <a class="nav-logo" href="#">
+    <span class="logo-icon">S</span>
+    Tushar shivade
+  </a>
+
+  Toggle Button
+  <div class="menu-toggle" id="menu-toggle">
+    ☰
+  </div>
+
+  <ul class="nav-links" id="nav-links">
+    <li><a href="#" class="active">Home</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#skills">Skills</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="https://github.com/tusharshivade" target="_blank">Work</a></li>
+  </ul>
+</nav> -->
+
 
 <!-- HERO -->
 <section class="hero">
@@ -411,11 +468,11 @@
         <div class="orbit-ring orbit-1"><span class="orbit-dot" style="border-radius:50%"></span></div>
         <div class="orbit-ring orbit-2"><span class="orbit-dot-2"></span></div>
         <div class="avatar-circle">
-          <!--
-            To use your own image:
-            <img src="your-photo.jpg" alt="Tushar" class="avatar-img">
-            Remove the avatar-placeholder div below.
-          -->
+        
+            
+            <img src="portimg.jpeg" alt="Tushar" class="avatar-img" sizes="300px">
+            
+          
           <div class="avatar-placeholder">
             <div class="av-head" style="position:relative">
               😄
@@ -530,7 +587,7 @@
       </div>
       <div class="fg"><label class="fl">Subject</label><input class="fi" type="text" placeholder="What's this about?"></div>
       <div class="fg"><label class="fl">Message</label><textarea class="fta" placeholder="Tell me about your project..."></textarea></div>
-      <button class="btn-solid" style="width:100%;justify-content:center"><i class="fas fa-paper-plane"></i> Send Message</button>
+      <button class="btn-solid" style="width:100%;justify-content:center"><i class="fas fa-paper-plane"></i> Send Message to tushar</button>
     </div>
   </div>
 </section>
@@ -538,7 +595,7 @@
 <!-- FOOTER -->
 <footer>
   <div class="f-logo">shivade<span>Tushar</span></div>
-  <p>© 2026 All rights reserved.</p>
+  <p>©  All rights reserved.</p>
   <p>Built with ❤️ &amp; <span style="color:var(--orange)">passion&efforts</span></p>
 </footer>
 
@@ -635,6 +692,15 @@ const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1 });
 document.querySelectorAll('.reveal').forEach(r => obs.observe(r));
+
+//new change from tushar
+
+// const toggle = document.getElementById("menu-toggle");
+// const navLinks = document.getElementById("nav-links");
+
+// toggle.onclick = function () {
+//   navLinks.classList.toggle("active");
+// };
 </script>
 </body>
 </html>
