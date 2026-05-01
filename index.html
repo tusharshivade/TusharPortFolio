@@ -18,21 +18,55 @@
     --light-bg: #f8faff;
     --text: #1a1a4e;
     --gray: #6b7280;
+    --card-bg: #1a1a4e;
     --font: 'Poppins', sans-serif;
+    --transition: all 0.3s ease;
+  }
+
+  body.dark-mode {
+    --white: #0f172a;
+    --light-bg: #1e293b;
+    --text: #f1f5f9;
+    --navy: #f1f5f9;
+    --gray: #94a3b8;
+    --card-bg: #1e293b;
   }
 
   *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
   html { scroll-behavior: smooth; }
-  body { font-family: var(--font); background: var(--white); color: var(--text); overflow-x: hidden; }
+  body { font-family: var(--font); background: var(--white); color: var(--text); overflow-x: hidden; transition: var(--transition); }
 
   /* ─── NAVBAR ─── */
   .navbar {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
     display: flex; align-items: center; justify-content: space-between;
     padding: 0 3.5rem; height: 68px;
-    background: rgba(255,255,255,0.97);
+    background: var(--white);
     backdrop-filter: blur(12px);
     box-shadow: 0 1px 20px rgba(26,26,78,0.08);
+    transition: var(--transition);
+  }
+
+  /* Theme Toggle Button */
+  .theme-toggle {
+    margin-left: auto;
+    margin-right: 1rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    border: none;
+    background: var(--light-bg);
+    color: var(--text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.1rem;
+    transition: var(--transition);
+  }
+  .theme-toggle:hover {
+    background: var(--orange);
+    color: white;
   }
 
   .menu-toggle {
@@ -100,12 +134,13 @@
   .hero-content {
     position: relative; z-index: 1;
     display: flex; align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     width: 100%; max-width: 1200px;
     margin: 0 auto; gap: 3rem;
+    text-align: center;
   }
 
-  .hero-left { flex: 1; max-width: 560px; }
+  .hero-left { flex: 1; max-width: 700px; }
 
   .hi-text {
     font-size: clamp(2rem, 4vw, 3.2rem);
@@ -153,6 +188,7 @@
   /* Social Icons */
   .social-icons {
     display: flex; gap: 0.7rem; flex-wrap: wrap;
+    justify-content: center;
     opacity: 0; animation: fadeUp 0.6s 0.8s ease forwards;
   }
   .sicon {
@@ -328,7 +364,7 @@
 
   /* ─── CONTACT ─── */
   .contact-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; max-width: 1000px; margin: 0 auto; align-items: start; }
-  .contact-card { background: var(--navy); border-radius: 18px; padding: 2.5rem; color: white; }
+  .contact-card { background: var(--card-bg); border-radius: 18px; padding: 2.5rem; color: white; transition: var(--transition); }
   .contact-card h3 { font-size: 1.3rem; font-weight: 800; margin-bottom: 0.75rem; }
   .contact-card p { font-size: 0.82rem; color: rgba(255,255,255,0.6); line-height: 1.8; margin-bottom: 2rem; }
   .contact-link {
@@ -357,7 +393,7 @@
   .fta { min-height: 100px; }
 
   /* ─── FOOTER ─── */
-  footer { background: var(--navy); color: white; padding: 2rem 3.5rem; display: flex; justify-content: space-between; align-items: center; }
+  footer { background: var(--card-bg); color: white; padding: 2rem 3.5rem; display: flex; justify-content: space-between; align-items: center; transition: var(--transition); }
   .f-logo { font-size: 1.2rem; font-weight: 800; }
   .f-logo span { color: var(--orange); }
   footer p { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
@@ -540,6 +576,10 @@
       Tushar shivade
   </a>
 
+  <button class="theme-toggle" id="theme-toggle" aria-label="Toggle Dark Mode">
+    <i class="fas fa-moon"></i>
+  </button>
+
   <button class="menu-toggle" id="menu-toggle" aria-label="Open navigation menu" aria-controls="nav-links" aria-expanded="false">
     <i class="fas fa-bars"></i>
   </button>
@@ -598,30 +638,6 @@
         <a href="#" class="sicon telegram"><i class="fab fa-telegram-plane"></i></a>
         <a href="https://wa.me/919000000000" class="sicon whatsapp" target="_blank"><i class="fab fa-whatsapp"></i></a>
         <a href="mailto:tushar@email.com" class="sicon email"><i class="fas fa-envelope"></i></a>
-      </div>
-    </div>
-
-    <!-- RIGHT — Avatar -->
-    <div class="hero-right">
-      <div class="avatar-wrapper">
-        <div class="orbit-ring orbit-1"><span class="orbit-dot" style="border-radius:50%"></span></div>
-        <div class="orbit-ring orbit-2"><span class="orbit-dot-2"></span></div>
-        <div class="avatar-circle">
-        
-            
-            <img src="" alt="Tushar" class="avatar-img" sizes="300px">
-            
-          
-          <div class="avatar-placeholder">
-            <div class="av-head" style="position:relative">
-              😄
-              <span class="av-hand">👋</span>
-            </div>
-            <div class="av-body">
-              <span style="font-size:0.7rem;color:#3b82f6;font-weight:700;margin-top:0.3rem">DevOps</span>
-            </div>
-          </div>
-        </div>
       </div>
     </div>
   </div>
@@ -781,7 +797,7 @@ function draw() {
     if (p.y < 0 || p.y > H) p.vy *= -1;
     ctx.beginPath();
     ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-    ctx.fillStyle = 'rgba(26,26,78,0.5)';
+    ctx.fillStyle = document.body.classList.contains('dark-mode') ? 'rgba(255,255,255,0.4)' : 'rgba(26,26,78,0.5)';
     ctx.fill();
     // Lines between close particles
     for (let j = i + 1; j < particles.length; j++) {
@@ -791,7 +807,8 @@ function draw() {
       if (dist < 130) {
         ctx.beginPath();
         ctx.moveTo(p.x, p.y); ctx.lineTo(p2.x, p2.y);
-        ctx.strokeStyle = `rgba(26,26,78,${0.18 * (1 - dist/130)})`;
+        const lineColor = document.body.classList.contains('dark-mode') ? `rgba(255,255,255,${0.15 * (1 - dist/130)})` : `rgba(26,26,78,${0.18 * (1 - dist/130)})`;
+        ctx.strokeStyle = lineColor;
         ctx.lineWidth = 0.8;
         ctx.stroke();
       }
@@ -856,6 +873,29 @@ if (toggle && navLinks) {
     }
   });
 }
+
+// ── Dark Mode Logic ──
+const themeToggle = document.getElementById('theme-toggle');
+const themeIcon = themeToggle.querySelector('i');
+
+// Check for saved theme
+if (localStorage.getItem('theme') === 'dark') {
+  document.body.classList.add('dark-mode');
+  themeIcon.classList.replace('fa-moon', 'fa-sun');
+}
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('dark-mode');
+  const isDark = document.body.classList.contains('dark-mode');
+  
+  if (isDark) {
+    themeIcon.classList.replace('fa-moon', 'fa-sun');
+    localStorage.setItem('theme', 'dark');
+  } else {
+    themeIcon.classList.replace('fa-sun', 'fa-moon');
+    localStorage.setItem('theme', 'light');
+  }
+});
 </script>
 </body>
 </html>
