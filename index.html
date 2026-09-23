@@ -1248,7 +1248,8 @@
         align-items: stretch;
         gap: 0.25rem;
         padding: 0.75rem;
-        background: rgba(255, 255, 255, 0.98);
+        background: var(--white);
+        border: 1px solid rgba(26, 26, 78, 0.08);
         border-radius: 14px;
         box-shadow: 0 14px 34px rgba(26, 26, 78, 0.14);
       }
@@ -1392,6 +1393,30 @@
         font-size: 0.75rem;
         word-break: break-word;
       }
+    }
+
+    /* ─── Dynamic Sections Styling (Dark Mode Support) ─── */
+    body.dark-mode .project-card,
+    body.dark-mode .skill-card {
+      background: var(--card-bg) !important;
+      border-color: #334155 !important;
+    }
+    body.dark-mode .project-card h3 {
+      color: var(--text) !important;
+    }
+    body.dark-mode #experience div[style*="background:var(--light-bg)"] {
+      background: var(--card-bg) !important;
+      border-color: #334155 !important;
+    }
+    body.dark-mode #experience h3 {
+      color: var(--text) !important;
+    }
+    body.dark-mode #education div[style*="background:var(--white)"] {
+      background: var(--card-bg) !important;
+      border-color: #334155 !important;
+    }
+    body.dark-mode #education h4 {
+      color: var(--text) !important;
     }
   </style>
 </head>
@@ -1750,7 +1775,7 @@
     draw();
 
     // ── Typing animation ──
-    const roles = ['DevOps Engineer', 'Cloud Enthusiast', 'Linux Expert', 'Automation Builder'];
+    const roles = window.portfolioRoles = window.portfolioRoles || ['DevOps Engineer', 'Cloud Enthusiast', 'Linux Expert', 'Automation Builder'];
     let ri = 0, ci = 0, del = false;
     const el = document.getElementById('typed');
     function type() {
@@ -1853,6 +1878,8 @@
     <div id="certCaption"></div>
   </div>
 
+  <!-- Dynamic Portfolio Hydration Script -->
+  <script src="/portfolio-dynamic.js"></script>
 </body>
 
 </html>

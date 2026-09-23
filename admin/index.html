@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | Tushar Shivade Portfolio</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/devicon.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/admin/css/admin.css">
+</head>
+<body>
+
+  <!-- ── 1. AUTH SCREEN (LOGIN) ── -->
+  <div id="auth-screen" class="auth-wrapper">
+    <div class="auth-card">
+      <div class="auth-header">
+        <div class="auth-logo">
+          <i class="fas fa-shield-alt"></i>
+        </div>
+        <h1>Admin Portal</h1>
+        <p>Sign in to manage portfolio content</p>
+      </div>
+
+      <div id="login-alert" style="display:none; padding: 0.75rem 1rem; border-radius: 6px; margin-bottom: 1.25rem; font-size: 0.84rem; background: rgba(239, 68, 68, 0.15); border: 1px solid #ef4444; color: #ef4444;"></div>
+
+      <form id="login-form">
+        <div class="form-group">
+          <label class="form-label" for="login-username">Email or Username</label>
+          <input type="text" id="login-username" class="form-control" placeholder="admin@shivade.in" required autocomplete="username">
+        </div>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label class="form-label" for="login-password">Password</label>
+          <input type="password" id="login-password" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+        </div>
+
+        <button type="submit" id="btn-login-submit" class="btn btn-primary" style="width: 100%; padding: 0.75rem;">
+          <i class="fas fa-sign-in-alt"></i> Log In
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ── 2. DASHBOARD APP LAYOUT ── -->
+  <div id="app-layout" class="app-container" style="display:none;">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <a href="#dashboard" class="sidebar-brand">
+          <span class="badge-icon">S</span>
+          <span>Tushar Admin</span>
+        </a>
+        <button class="sidebar-close" id="sidebar-close-btn" aria-label="Close Sidebar">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <nav class="sidebar-nav">
+        <span class="nav-section-title">Overview</span>
+        <button class="nav-item active" data-view="dashboard">
+          <i class="fas fa-chart-pie"></i> Dashboard
+        </button>
+
+        <span class="nav-section-title">Content Management</span>
+        <button class="nav-item" data-view="profile">
+          <i class="fas fa-user-circle"></i> Profile & Hero
+        </button>
+        <button class="nav-item" data-view="skills">
+          <i class="fas fa-code"></i> Skills
+        </button>
+        <button class="nav-item" data-view="projects">
+          <i class="fas fa-laptop-code"></i> Projects
+        </button>
+        <button class="nav-item" data-view="experience">
+          <i class="fas fa-briefcase"></i> Experience
+        </button>
+        <button class="nav-item" data-view="education">
+          <i class="fas fa-graduation-cap"></i> Education
+        </button>
+        <button class="nav-item" data-view="certifications">
+          <i class="fas fa-award"></i> Certifications
+        </button>
+        <button class="nav-item" data-view="testimonials">
+          <i class="fas fa-comment-dots"></i> Testimonials
+        </button>
+        <button class="nav-item" data-view="pipeline">
+          <i class="fas fa-stream"></i> Pipeline Cards
+        </button>
+        <button class="nav-item" data-view="social">
+          <i class="fas fa-share-alt"></i> Social Links
+        </button>
+
+        <span class="nav-section-title">Assets & Inbox</span>
+        <button class="nav-item" data-view="resumes">
+          <i class="fas fa-file-pdf"></i> Resume CV
+        </button>
+        <button class="nav-item" data-view="messages">
+          <i class="fas fa-envelope"></i> Messages
+          <span class="nav-badge" id="sidebar-unread-badge" style="display:none;">0</span>
+        </button>
+        <button class="nav-item" data-view="media">
+          <i class="fas fa-images"></i> Media Library
+        </button>
+        <button class="nav-item" data-view="settings">
+          <i class="fas fa-sliders-h"></i> Settings
+        </button>
+      </nav>
+
+      <div class="sidebar-footer">
+        <div class="admin-user-info">
+          <div class="user-avatar-circle">T</div>
+          <div class="user-details">
+            <span class="user-name" id="sidebar-user-name">Admin</span>
+            <span class="user-role">Administrator</span>
+          </div>
+        </div>
+        <button class="btn btn-secondary btn-icon" id="btn-logout" title="Log Out">
+          <i class="fas fa-sign-out-alt"></i>
+        </button>
+      </div>
+    </aside>
+
+    <!-- MAIN WRAPPER -->
+    <div class="main-wrapper">
+      <!-- TOP NAVBAR -->
+      <header class="top-navbar">
+        <div class="navbar-left">
+          <button class="mobile-toggle" id="mobile-menu-btn" aria-label="Open Menu">
+            <i class="fas fa-bars"></i>
+          </button>
+          <h1 class="navbar-page-title" id="page-title">Dashboard</h1>
+        </div>
+
+        <div class="navbar-actions">
+          <a href="/" target="_blank" class="btn-nav-action" title="View Public Website">
+            <i class="fas fa-external-link-alt"></i> <span>View Website</span>
+          </a>
+
+          <button class="theme-toggle-btn" id="admin-theme-toggle" title="Toggle Dark/Light Mode">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
+      </header>
+
+      <!-- CONTENT BODY -->
+      <main class="content-body" id="main-content">
+
+        <!-- VIEW: DASHBOARD -->
+        <section id="view-dashboard" class="content-section">
+          <div class="stats-grid" id="dashboard-stats-grid">
+            <!-- Rendered by admin.js -->
+          </div>
+
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Recent Contact Messages</h2>
+              <p>Latest inquiries sent via your portfolio contact form</p>
+            </div>
+            <button class="btn btn-secondary btn-sm" onclick="App.navigateTo('messages')">
+              View All Messages <i class="fas fa-arrow-right"></i>
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Sender</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody id="dashboard-recent-messages-tbody">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: PROFILE & HERO -->
+        <section id="view-profile" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Profile & Hero Information</h2>
+              <p>Manage your main introduction, bio, titles, typing animations, and numbers</p>
+            </div>
+            <button class="btn btn-primary" id="btn-save-profile">
+              <i class="fas fa-save"></i> Save Changes
+            </button>
+          </div>
+
+          <div class="form-card">
+            <form id="profile-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Full Name</label>
+                  <input type="text" id="prof-full-name" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Professional Title</label>
+                  <input type="text" id="prof-title" class="form-control" placeholder="DevOps Engineer" required>
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label">Typing Animation Roles (Comma separated)</label>
+                  <input type="text" id="prof-typing-roles" class="form-control" placeholder="DevOps Engineer, Cloud Enthusiast, Linux Expert">
+                  <span class="form-hint">These words rotate smoothly in the Hero typing animation.</span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Hero Greeting Text</label>
+                  <input type="text" id="prof-short-intro" class="form-control" placeholder="Hi There,">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Availability Status</label>
+                  <input type="text" id="prof-availability" class="form-control" placeholder="Open to opportunities">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Email</label>
+                  <input type="email" id="prof-email" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Phone</label>
+                  <input type="text" id="prof-phone" class="form-control">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Location</label>
+                  <input type="text" id="prof-location" class="form-control" placeholder="Pune, India">
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Profile Image / Avatar</label>
+                  <div style="display:flex; gap: 0.75rem; align-items:center;">
+                    <input type="text" id="prof-image-url" class="form-control" placeholder="portimg.jpeg or URL">
+                    <button type="button" class="btn btn-secondary btn-sm" onclick="App.triggerImageUpload('prof-image-url', 'avatar-preview-img')">
+                      <i class="fas fa-upload"></i> Upload
+                    </button>
+                  </div>
+                  <img id="avatar-preview-img" src="/portimg.jpeg" class="preview-thumbnail" alt="Avatar Preview">
+                </div>
+
+                <div class="form-group full-width">
+                  <label class="form-label">About Heading</label>
+                  <input type="text" id="prof-about-heading" class="form-control" placeholder="Building Scalable Infrastructure">
+                </div>
+
+                <div class="form-group full-width">
+                  <label class="form-label">About Description / Bio</label>
+                  <textarea id="prof-about-desc" class="form-textarea" rows="4"></textarea>
+                </div>
+
+                <div class="form-group">
+                  <label class="form-label">Stat Box 1: Skills Count</label>
+                  <input type="text" id="prof-stat-skills" class="form-control" placeholder="11+">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Stat Box 2: Pipelines Count</label>
+                  <input type="text" id="prof-stat-exp" class="form-control" placeholder="∞">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Stat Box 3: Downtime Count</label>
+                  <input type="text" id="prof-stat-down" class="form-control" placeholder="0">
+                </div>
+              </div>
+            </form>
+          </div>
+        </section>
+
+        <!-- VIEW: SKILLS -->
+        <section id="view-skills" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Skills Management</h2>
+              <p>Add, edit, disable, or reorder technical skills displayed on the portfolio</p>
+            </div>
+            <div class="header-actions">
+              <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-skills" class="form-control" placeholder="Search skills...">
+              </div>
+              <button class="btn btn-primary" onclick="App.openSkillModal()">
+                <i class="fas fa-plus"></i> Add Skill
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width: 60px;">Icon</th>
+                    <th>Skill Name</th>
+                    <th>Category</th>
+                    <th>Level</th>
+                    <th style="width: 80px;">Order</th>
+                    <th style="width: 100px;">Status</th>
+                    <th style="width: 130px; text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="skills-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: PROJECTS -->
+        <section id="view-projects" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Project Management</h2>
+              <p>Showcase and organize your DevOps and software engineering projects</p>
+            </div>
+            <div class="header-actions">
+              <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-projects" class="form-control" placeholder="Search projects...">
+              </div>
+              <button class="btn btn-primary" onclick="App.openProjectModal()">
+                <i class="fas fa-plus"></i> Add Project
+              </button>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Project</th>
+                    <th>Technologies</th>
+                    <th>Category</th>
+                    <th>Featured</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="projects-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: EXPERIENCE -->
+        <section id="view-experience" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Experience / Work History</h2>
+              <p>Manage internships, full-time roles, and technical engagements</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openExperienceModal()">
+              <i class="fas fa-plus"></i> Add Experience
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Company</th>
+                    <th>Role / Position</th>
+                    <th>Duration</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="experience-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: EDUCATION -->
+        <section id="view-education" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Education & Degrees</h2>
+              <p>Degrees, university studies, and foundational certifications</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openEducationModal()">
+              <i class="fas fa-plus"></i> Add Education
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Degree</th>
+                    <th>Institution</th>
+                    <th>Years</th>
+                    <th>Grade / CGPA</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="education-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: CERTIFICATIONS -->
+        <section id="view-certifications" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Certifications</h2>
+              <p>AWS, Capgemini, and professional credentials with modal preview</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openCertModal()">
+              <i class="fas fa-plus"></i> Add Certification
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Certificate Name</th>
+                    <th>Issuing Organization</th>
+                    <th>Credential ID</th>
+                    <th>Certificate File</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="certifications-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: TESTIMONIALS -->
+        <section id="view-testimonials" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Testimonials & Recommendations</h2>
+              <p>Endorsements from mentors, colleagues, or clients</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openTestimonialModal()">
+              <i class="fas fa-plus"></i> Add Testimonial
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Person</th>
+                    <th>Role & Company</th>
+                    <th>Snippet</th>
+                    <th>Rating</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="testimonials-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: PIPELINE STEPS -->
+        <section id="view-pipeline" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>About Pipeline Cards</h2>
+              <p>The 4 sequential cards displayed on the About Me section (01-04)</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openPipelineModal()">
+              <i class="fas fa-plus"></i> Add Pipeline Step
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width:70px;">Step #</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="pipeline-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: SOCIAL LINKS -->
+        <section id="view-social" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Social Media Links</h2>
+              <p>GitHub, LinkedIn, WhatsApp, Twitter, and other public profile buttons</p>
+            </div>
+            <button class="btn btn-primary" onclick="App.openSocialModal()">
+              <i class="fas fa-plus"></i> Add Social Link
+            </button>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th style="width:60px;">Icon</th>
+                    <th>Platform</th>
+                    <th>URL</th>
+                    <th>Order</th>
+                    <th>Status</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="social-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: RESUME MANAGEMENT -->
+        <section id="view-resumes" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Resume / CV Management</h2>
+              <p>Upload a new PDF resume; the active resume automatically connects to the public portfolio download button</p>
+            </div>
+          </div>
+
+          <!-- Upload Dropzone -->
+          <div class="form-card">
+            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;">Upload New Resume</h3>
+            <div class="upload-dropzone" id="resume-dropzone" onclick="document.getElementById('resume-file-input').click()">
+              <i class="fas fa-file-upload upload-icon"></i>
+              <h4>Drag & drop resume PDF here, or click to browse</h4>
+              <p class="form-hint">Accepted formats: .pdf (Max 10MB)</p>
+              <input type="file" id="resume-file-input" accept=".pdf" style="display:none;">
+            </div>
+            <div id="resume-upload-status" style="margin-top: 1rem; display:none;"></div>
+          </div>
+
+          <!-- Resumes List -->
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Original Filename</th>
+                    <th>Upload Date</th>
+                    <th>Size</th>
+                    <th>Active Resume</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="resumes-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: MESSAGES INBOX -->
+        <section id="view-messages" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Messages Inbox</h2>
+              <p>Inquiries received from your portfolio contact form</p>
+            </div>
+            <div class="header-actions">
+              <div class="search-input-wrapper">
+                <i class="fas fa-search"></i>
+                <input type="text" id="search-messages" class="form-control" placeholder="Search sender, subject...">
+              </div>
+            </div>
+          </div>
+
+          <div class="table-container">
+            <div class="table-responsive">
+              <table class="admin-table">
+                <thead>
+                  <tr>
+                    <th>Status</th>
+                    <th>Sender Name</th>
+                    <th>Email</th>
+                    <th>Subject</th>
+                    <th>Message</th>
+                    <th>Date</th>
+                    <th style="text-align:right;">Actions</th>
+                  </tr>
+                </thead>
+                <tbody id="messages-tbody"></tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+
+        <!-- VIEW: MEDIA LIBRARY -->
+        <section id="view-media" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Media Library</h2>
+              <p>Upload and manage project screenshots, certificate images, and assets</p>
+            </div>
+            <button class="btn btn-primary" onclick="document.getElementById('media-file-input').click()">
+              <i class="fas fa-upload"></i> Upload Media
+            </button>
+            <input type="file" id="media-file-input" accept="image/*,.pdf" style="display:none;">
+          </div>
+
+          <div class="media-grid" id="media-grid"></div>
+        </section>
+
+        <!-- VIEW: WEBSITE SETTINGS -->
+        <section id="view-settings" class="content-section" style="display:none;">
+          <div class="section-header">
+            <div class="section-title-wrap">
+              <h2>Website Settings & SEO</h2>
+              <p>Configure page metadata, copyright notice, contact details, and admin security</p>
+            </div>
+            <button class="btn btn-primary" id="btn-save-settings">
+              <i class="fas fa-save"></i> Save Settings
+            </button>
+          </div>
+
+          <div class="form-card">
+            <form id="settings-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Website Title</label>
+                  <input type="text" id="set-site-title" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Contact Email</label>
+                  <input type="email" id="set-contact-email" class="form-control">
+                </div>
+                <div class="form-group full-width">
+                  <label class="form-label">Meta Description (SEO)</label>
+                  <textarea id="set-meta-desc" class="form-textarea" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Footer Headline</label>
+                  <input type="text" id="set-footer-text" class="form-control" placeholder="Built with ❤️ & passion">
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Copyright Notice</label>
+                  <input type="text" id="set-copyright-text" class="form-control" placeholder="© All rights reserved.">
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <div class="form-card" style="margin-top: 2rem;">
+            <h3 style="margin-bottom: 1rem; font-size: 1.1rem;"><i class="fas fa-lock"></i> Change Admin Password</h3>
+            <form id="change-password-form">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label">Current Password</label>
+                  <input type="password" id="pw-current" class="form-control" required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">New Password</label>
+                  <input type="password" id="pw-new" class="form-control" minlength="6" required>
+                </div>
+              </div>
+              <button type="submit" class="btn btn-secondary" style="margin-top: 1rem;">
+                <i class="fas fa-key"></i> Update Password
+              </button>
+            </form>
+          </div>
+        </section>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- ── REUSABLE MODAL DIALOG ── -->
+  <div id="crud-modal" class="modal-overlay">
+    <div class="modal-dialog">
+      <div class="modal-header">
+        <h3 id="modal-title">Edit Item</h3>
+        <button class="modal-close" onclick="App.closeModal()">&times;</button>
+      </div>
+      <div class="modal-body" id="modal-body">
+        <!-- Dynamically injected form fields -->
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="App.closeModal()">Cancel</button>
+        <button type="button" class="btn btn-primary" id="modal-submit-btn">Save</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── CONFIRMATION MODAL ── -->
+  <div id="confirm-modal" class="modal-overlay">
+    <div class="modal-dialog" style="max-width: 440px;">
+      <div class="modal-header">
+        <h3 id="confirm-title">Confirm Action</h3>
+        <button class="modal-close" onclick="App.closeConfirmModal()">&times;</button>
+      </div>
+      <div class="modal-body">
+        <p id="confirm-message" style="color: var(--text-muted); font-size: 0.92rem;">Are you sure you want to proceed?</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" onclick="App.closeConfirmModal()">Cancel</button>
+        <button type="button" class="btn btn-danger" id="confirm-btn-yes">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── TOAST NOTIFICATION CONTAINER ── -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Hidden Image File Input for Modal/Profile uploads -->
+  <input type="file" id="generic-upload-input" accept="image/*,.pdf" style="display:none;">
+
+  <script src="/admin/js/api.js"></script>
+  <script src="/admin/js/admin.js"></script>
+</body>
+</html>
